@@ -64,7 +64,7 @@ class _OnboardingWidgetsState extends State<OnboardingWidgets> {
                       color: const Color(0xFFC67C4E),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15,),
+                    padding: EdgeInsets.symmetric(vertical: 15,),
                     child: const InkWell(
                       child: Text("Get Started",
                           style: TextStyle(

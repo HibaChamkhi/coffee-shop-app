@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'features/presentation/widgets/onboarding.dart';
 
-import 'features/presentation/widgets/home.dart';
-import 'features/presentation/widgets/product_details.dart';
 
 void main() {
   runApp(ScreenUtilInit(
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ProductDetails(),
+      home: OnboardingWidgets(),
     );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:coffe_shop/features/presentation/widgets/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnboardingWidgets extends StatefulWidget {
   const OnboardingWidgets({super.key});
@@ -32,31 +34,31 @@ class _OnboardingWidgetsState extends State<OnboardingWidgets> {
             left: 0,
             right: 0,
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20 ,vertical: 10),
+              margin:  EdgeInsets.symmetric(horizontal: 20.w ,vertical: 10.h),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
+                   Text(
                     "Fall in Love with Coffee in Blissful Delight",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 30, // Adjust font size as needed
+                      fontSize: 30.sp, // Adjust font size as needed
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10), // Space between the texts
-                  const Text(
+                  SizedBox(height: 10.h), // Space between the texts
+                   Text(
                     "Welcome to our cozy coffee corner, where every cup is delighful for you ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: 12, // Adjust font size as needed
+                      fontSize: 12.sp, // Adjust font size as needed
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20), // Space between the texts
+                   SizedBox(height: 20.h), // Space between the texts
                   Container(
                     width: double.infinity,
                     alignment: Alignment.center,
@@ -64,12 +66,19 @@ class _OnboardingWidgetsState extends State<OnboardingWidgets> {
                       color: const Color(0xFFC67C4E),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 15,),
-                    child: const InkWell(
+                    padding: EdgeInsets.symmetric(vertical: 15.h,),
+                    child:  InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
+                      },
                       child: Text("Get Started",
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold)),
                     ),
                   ),

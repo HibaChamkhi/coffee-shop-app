@@ -67,8 +67,8 @@ class _ProductDetailsState extends State<ProductDetails> {
               'Caffe Mocha',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Text("Ice/Hot",style: TextStyle(color: Colors.grey),),
             ),
             Row(
@@ -78,9 +78,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const Text("(230)",style: TextStyle(color: Colors.grey),),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Divider(),
             ),
             const Text(
               'Description',
@@ -154,7 +154,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             Row(
               children: [
-                Column(
+                const Column(
                   children: [
                     Text(
                       'Price',
@@ -170,7 +170,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ],
                 ),
                 SizedBox(
-                  width: 50.w,
+                  width: 60.w,
                 ),
                 InkWell(
                   onTap: (){
@@ -180,12 +180,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     );                      },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 70.w, vertical: 15.h),
+                    padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 15.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: Color(0xFFC67C4E),
                     ),
-                    child: Text(
+                    child: const Text(
                       "Buy Now",
                       style: TextStyle(color: Colors.white),
                     ),

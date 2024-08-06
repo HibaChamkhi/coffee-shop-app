@@ -60,24 +60,6 @@ class _HomePageState extends State<HomePage> {
           _buildOverlay()
         ],
       ),
-      // Uncomment and configure this if needed
-      // bottomNavigationBar: CrystalNavigationBar(
-      //   borderRadius: 0,
-      //   boxShadow: const [
-      //     BoxShadow(color: Colors.grey, spreadRadius: 0, blurRadius: 250, offset: Offset(0, -300)),
-      //   ],
-      //   currentIndex: SelectedTab.values.indexOf(_selectedTab),
-      //   height: 0,
-      //   unselectedItemColor: Colors.grey,
-      //   backgroundColor: Colors.white,
-      //   onTap: _handleIndexChanged,
-      //   items: [
-      //     CrystalNavigationBarItem(icon: Icons.home, unselectedIcon: Icons.home, selectedColor: Color(0xFFC67C4E)),
-      //     CrystalNavigationBarItem(icon: Icons.monitor_heart, unselectedIcon: Icons.monitor_heart, selectedColor: Color(0xFFC67C4E)),
-      //     CrystalNavigationBarItem(icon: Icons.shopping_bag_outlined, unselectedIcon: Icons.shopping_bag_outlined, selectedColor: Color(0xFFC67C4E)),
-      //     CrystalNavigationBarItem(icon: Icons.notifications, unselectedIcon: Icons.notifications, selectedColor: Color(0xFFC67C4E)),
-      //   ],
-      // ),
     );
   }
 
@@ -118,20 +100,27 @@ class _HomePageState extends State<HomePage> {
         cursorColor: Colors.white,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-          border: InputBorder.none,
-          prefixIcon:  Icon(Icons.search, color: Colors.white, size: 20.w),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide.none,
+          ),
+          prefixIcon: Icon(Icons.search, color: Colors.white, size: 20.w),
           fillColor: Colors.grey[900],
           filled: true,
           hintText: "Search by Name",
           hintStyle: const TextStyle(color: Colors.grey),
-          contentPadding:
-               EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
+          contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
           isDense: true,
         ),
-        style:  TextStyle(fontSize: 14.0.sp, color: Colors.white),
+        style: TextStyle(fontSize: 14.0.sp, color: Colors.white),
       ),
     );
   }
+
 
   Widget _buildMenuButton() {
     return Container(
@@ -148,7 +137,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildCoffeeList() {
     return Container(
       height: 30.h,
-      margin: EdgeInsets.only(top: 100.h, left: 20.w),
+      margin: EdgeInsets.only(top: 100.h, left: 20.w,bottom: 5.h),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: coffeeNames.asMap().entries.map((entry) {
@@ -169,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                 child: Text(
                   name,
                   style: TextStyle(
-                    fontSize: 10.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
                     color:
                         _selectedIndex == index ? Colors.white : Colors.black,
@@ -186,12 +175,14 @@ class _HomePageState extends State<HomePage> {
   Widget _buildCoffeeGrid() {
     return Container(
       height: 500.h,
-      padding:  EdgeInsets.all(8.0.w),
+      // color: Colors.red,
+      padding: EdgeInsets.only(left: 25,right: 25,bottom: 120),
       child: GridView.builder(
         gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 15.w,
           mainAxisSpacing: 15.h,
+          childAspectRatio: 0.75
         ),
         itemCount: coffeeNames.length,
         itemBuilder: (context, index) {
@@ -217,7 +208,7 @@ class _HomePageState extends State<HomePage> {
               height: 140.h),
         ),
         Positioned(
-          top: 245.h,
+          top: 260.h,
           left: 45.w,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
@@ -241,11 +232,11 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               SizedBox(
-                width: 180.w,
+                width: 200.w,
                 child: Text(
                   'Buy one get one FREE',
                   style: TextStyle(
-                    fontSize: 22.sp,
+                    fontSize: 32.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),

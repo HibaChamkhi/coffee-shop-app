@@ -2,6 +2,7 @@ import 'package:coffe_shop/features/presentation/widgets/product_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class ProductBox extends StatefulWidget {
   const ProductBox({super.key});
@@ -12,13 +13,13 @@ class ProductBox extends StatefulWidget {
 
 class _ProductBoxState extends State<ProductBox> {
   @override
+
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const ProductDetails(),
-          ),
+        pushWithoutNavBar(
+            context,
+            MaterialPageRoute(builder: (context) => const ProductDetails())
         );
       },
       child: Container(
@@ -36,13 +37,16 @@ class _ProductBoxState extends State<ProductBox> {
         ),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10.r)),
-              child: Image.asset(
-                'assets/coffee.jpeg',
-                width: 140.w,
-                height: 100.h,
-                fit: BoxFit.fill,
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                child: Image.asset(
+                  'assets/coffee.jpeg',
+                  width: 160.w,
+                  height: 120.h,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             Padding(

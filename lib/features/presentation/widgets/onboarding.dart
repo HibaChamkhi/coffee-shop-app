@@ -1,4 +1,5 @@
 import 'package:coffe_shop/features/presentation/widgets/home.dart';
+import 'package:coffe_shop/features/presentation/widgets/persisten_bottom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -40,11 +41,11 @@ class _OnboardingWidgetsState extends State<OnboardingWidgets> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                    Text(
-                    "Fall in Love with Coffee in Blissful Delight",
+                    "Fall in Love with Coffee in Blissful Delight!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 30.sp, // Adjust font size as needed
+                      fontSize: 35.sp, // Adjust font size as needed
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -54,7 +55,7 @@ class _OnboardingWidgetsState extends State<OnboardingWidgets> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: 12.sp, // Adjust font size as needed
+                      fontSize: 15.sp, // Adjust font size as needed
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -71,7 +72,7 @@ class _OnboardingWidgetsState extends State<OnboardingWidgets> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const HomePage(),
+                            builder: (context) =>  PersistenBottomNavBar(),
                           ),
                         );
                       },

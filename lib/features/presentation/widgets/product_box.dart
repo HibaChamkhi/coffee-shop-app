@@ -1,3 +1,4 @@
+import 'package:coffe_shop/features/data/models/product_model.dart';
 import 'package:coffe_shop/features/presentation/widgets/product_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class ProductBox extends StatefulWidget {
-  const ProductBox({super.key});
-
+  const ProductBox({super.key, required  this.product});
+ final ProductModel product ;
   @override
   State<ProductBox> createState() => _ProductBoxState();
 }
@@ -19,7 +20,7 @@ class _ProductBoxState extends State<ProductBox> {
       onTap: () {
         pushWithoutNavBar(
             context,
-            MaterialPageRoute(builder: (context) => const ProductDetails())
+            MaterialPageRoute(builder: (context) =>  ProductDetails(product :widget.product))
         );
       },
       child: Container(
@@ -41,8 +42,8 @@ class _ProductBoxState extends State<ProductBox> {
               padding: const EdgeInsets.only(top: 8.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                child: Image.asset(
-                  'assets/coffee.jpeg',
+                child: Image.network(
+                  widget.product.image ?? "",
                   width: 160.w,
                   height: 120.h,
                   fit: BoxFit.fill,
@@ -54,15 +55,15 @@ class _ProductBoxState extends State<ProductBox> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Coffee Latte',
+                   Text(
+                    widget.product.name,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const Text('Deep Foam'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('\$ 4.53',
+                       Text('\$ ${widget.product.price}',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Container(
                         alignment: Alignment.center,

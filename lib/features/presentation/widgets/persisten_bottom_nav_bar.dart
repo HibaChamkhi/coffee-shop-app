@@ -2,6 +2,8 @@ import 'package:coffe_shop/features/presentation/widgets/home.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
+import '../pages/home_page.dart';
+
 
 class PersistenBottomNavBar extends StatelessWidget {
   @override

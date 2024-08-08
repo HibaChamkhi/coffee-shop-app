@@ -1,6 +1,9 @@
+import 'package:coffe_shop/features/data/models/product_model.dart';
 import 'package:coffe_shop/features/presentation/widgets/product_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../data/models/category_model.dart';
 
 enum SelectedTab { home, favorite, add, search, person }
 
@@ -18,14 +21,17 @@ final List<String> coffeeNames = [
   "Irish Coffee"
 ];
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomeWidget extends StatefulWidget {
+  const HomeWidget({Key? key, required this.categories, required this.products}) : super(key: key);
+
+final List<CategoryModel> categories ;
+final List<ProductModel> products ;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeWidget> createState() => _HomeWidgetState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeWidgetState extends State<HomeWidget> {
   SelectedTab _selectedTab = SelectedTab.home;
   int _selectedIndex = 0;
 
@@ -137,46 +143,73 @@ class _HomePageState extends State<HomePage> {
   Widget _buildCoffeeList() {
     return Container(
       height: 30.h,
-      margin: EdgeInsets.only(top: 100.h, left: 20.w,bottom: 5.h),
+      margin: EdgeInsets.only(top: 100.h, left: 20.w, bottom: 5.h),
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: coffeeNames.asMap().entries.map((entry) {
-          int index = entry.key;
-          String name = entry.value;
-          return GestureDetector(
-            onTap: () => _onItemTap(index),
+        children: [
+          // Adding the "All" category at the beginning
+          GestureDetector(
+            onTap: () => _onItemTap(0),
             child: Container(
-              padding:  EdgeInsets.symmetric(horizontal: 10.w),
-              margin:  EdgeInsets.symmetric(horizontal: 10.w),
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              margin: EdgeInsets.symmetric(horizontal: 10.w),
               decoration: BoxDecoration(
-                color: _selectedIndex == index
+                color: _selectedIndex == 0
                     ? const Color(0xFFC67C4E)
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: Text(
-                  name,
+                  "All",
                   style: TextStyle(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
-                    color:
-                        _selectedIndex == index ? Colors.white : Colors.black,
+                    color: _selectedIndex == 0 ? Colors.white : Colors.black,
                   ),
                 ),
               ),
             ),
-          );
-        }).toList(),
+          ),
+          // Mapping the other categories, starting index from 1
+          ...widget.categories.asMap().entries.map((entry) {
+            int index = entry.key + 1;
+            String name = entry.value.name;
+            return GestureDetector(
+              onTap: () => _onItemTap(index),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                margin: EdgeInsets.symmetric(horizontal: 10.w),
+                decoration: BoxDecoration(
+                  color: _selectedIndex == index
+                      ? const Color(0xFFC67C4E)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    name,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                      color:
+                      _selectedIndex == index ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ],
       ),
     );
+
   }
 
   Widget _buildCoffeeGrid() {
     return Container(
       height: 500.h,
-      // color: Colors.red,
-      padding: EdgeInsets.only(left: 25,right: 25,bottom: 120),
+      padding: const EdgeInsets.only(left: 25,right: 25,bottom: 120),
       child: GridView.builder(
         gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -184,9 +217,9 @@ class _HomePageState extends State<HomePage> {
           mainAxisSpacing: 15.h,
           childAspectRatio: 0.75
         ),
-        itemCount: coffeeNames.length,
+        itemCount: widget.products.length,
         itemBuilder: (context, index) {
-          return const ProductBox();
+          return  ProductBox(product: widget.products[index]);
         },
       ),
     );
@@ -256,3 +289,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+

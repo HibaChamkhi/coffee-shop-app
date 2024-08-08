@@ -36,6 +36,7 @@ class _OrderState extends State<Order> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,11 +45,9 @@ class _OrderState extends State<Order> {
         padding: EdgeInsets.symmetric(
           horizontal: 35.w,
         ),
-        height: _isPaymentVisible ? 160.h : 60.h,
-        // Adjust height based on visibility
+        height: _isPaymentVisible ? 200.h : 100.h,
         child: Column(
           children: [
-            // Payment Method Section
             ListTile(
               leading: const Icon(
                 Icons.account_balance_wallet_outlined,
@@ -57,9 +56,9 @@ class _OrderState extends State<Order> {
               title: const Text('Cash/Wallet'),
               subtitle: _isPaymentVisible
                   ? const Text(
-                      '\$5.53',
-                      style: TextStyle(color: Color(0xFFC67C4E)),
-                    )
+                '\$5.53',
+                style: TextStyle(color: Color(0xFFC67C4E)),
+              )
                   : null,
               trailing: IconButton(
                 icon: Icon(
@@ -70,8 +69,6 @@ class _OrderState extends State<Order> {
                 onPressed: _togglePaymentVisibility,
               ),
             ),
-
-            // Order Button
             Visibility(
               visible: _isPaymentVisible,
               child: SizedBox(
@@ -99,187 +96,178 @@ class _OrderState extends State<Order> {
       backgroundColor: Colors.grey[100],
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 35.w, vertical: 60.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(context),
-            SizedBox(height: 20.h),
-            _buildSelectionButtons(),
-            isDeliverSelected
-                ? Container(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
-                    child: Column(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(context),
+              SizedBox(height: 20.h),
+              _buildSelectionButtons(),
+              isDeliverSelected
+                  ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Delivery Address Section
+                  Text('Delivery Address',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.sp)),
+                  SizedBox(height: 8.h),
+                  Text('Jl. Kpg Sutoyo',
+                      style: TextStyle(fontSize: 16.sp)),
+                  const Text('Kpg. Sutoyo No. 620, Bilzen, Tanjungbalai',
+                      style: TextStyle(color: Colors.grey)),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Delivery Address Section
-                        Text('Delivery Address',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16.sp)),
-                        SizedBox(height: 8.h),
-                        Text('Jl. Kpg Sutoyo',
-                            style: TextStyle(fontSize: 16.sp)),
-                        const Text('Kpg. Sutoyo No. 620, Bilzen, Tanjungbalai',
-                            style: TextStyle(color: Colors.grey)),
-
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w, vertical: 4.h),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          border:
-                                              Border.all(color: Colors.black)),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.edit_note_outlined,
-                                            size: 15,
+                        GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w, vertical: 4.h),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(25),
+                                    border:
+                                    Border.all(color: Colors.black)),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.edit_note_outlined,
+                                      size: 15,
+                                      color: Colors.grey[700],
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text('Edit Address',
+                                        style: TextStyle(
                                             color: Colors.grey[700],
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text('Edit Address',
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontSize: 14.sp)),
-                                        ],
-                                      ))),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w, vertical: 4.h),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          border:
-                                              Border.all(color: Colors.black)),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.list_alt_sharp,
-                                            size: 15,
+                                            fontSize: 14.sp)),
+                                  ],
+                                ))),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w, vertical: 4.h),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(25),
+                                    border:
+                                    Border.all(color: Colors.black)),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.list_alt_sharp,
+                                      size: 15,
+                                      color: Colors.grey[700],
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    Text('Add Note',
+                                        style: TextStyle(
                                             color: Colors.grey[700],
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text('Add Note',
-                                              style: TextStyle(
-                                                  color: Colors.grey[700],
-                                                  fontSize: 14.sp)),
-                                        ],
-                                      ))),
-                            ],
-                          ),
-                        ),
-
-                        const Divider(),
-
-                        ListTile(
-                          leading: Image.asset('assets/CaffeMocha.png',
-                              // Replace with actual image URL
-                              width: 80.w),
-                          title: const Text(
-                            'Caffe Mocha',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: const Text('Deep Foam'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GestureDetector(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.white),
-                                  child: const Icon(Icons.remove, size: 20),
-                                ),
-                                onTap: _decrementQuantity,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0),
-                                child: Text(
-                                  '$_quantity',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                ),
-                              ),
-                              GestureDetector(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.white),
-                                  child: const Icon(Icons.add, size: 20),
-                                ),
-                                onTap: _incrementQuantity,
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        // Discount Section
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 13, horizontal: 15),
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.grey.withOpacity(0.3)),
-                            color: Colors.grey[50],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.discount,
-                                      color: Color(0xFFC67C4E)),
-                                  SizedBox(width: 10.w),
-                                  const Text('1 Discount is Applied'),
-                                ],
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 15,
-                              )
-                            ],
-                          ),
-                        ),
-
-                        // Payment Summary Section
-                        Text('Payment Summary',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16.sp)),
-                        SizedBox(height: 8.h),
-
-                        _buildSummaryRow('Price', '\$4.53'),
-                        _buildSummaryRow('Delivery Fee', '\$2.00',
-                            isOriginalPrice: true),
+                                            fontSize: 14.sp)),
+                                  ],
+                                ))),
                       ],
                     ),
-                  )
-                : Container()
-          ],
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: Image.asset('assets/CaffeMocha.png',
+                        width: 80.w),
+                    title: const Text(
+                      'Caffe Mocha',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: const Text('Deep Foam'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.white),
+                            child: const Icon(Icons.remove, size: 20),
+                          ),
+                          onTap: _decrementQuantity,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.0.w),
+                          child: Text(
+                            '$_quantity',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.white),
+                            child: const Icon(Icons.add, size: 20),
+                          ),
+                          onTap: _incrementQuantity,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 13.h, horizontal: 15.w),
+                    margin: EdgeInsets.symmetric(vertical: 20.h),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          color: Colors.grey.withOpacity(0.3)),
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.discount,
+                                color: Color(0xFFC67C4E)),
+                            SizedBox(width: 10.w),
+                            const Text('1 Discount is Applied'),
+                          ],
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 15,
+                        )
+                      ],
+                    ),
+                  ),
+                  Text('Payment Summary',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.sp)),
+                  SizedBox(height: 8.h),
+                  _buildSummaryRow('Price', '\$4.53'),
+                  _buildSummaryRow('Delivery Fee', '\$2.00',
+                      isOriginalPrice: true),
+                ],
+              )
+                  : Container()
+            ],
+          ),
         ),
       ),
     );
   }
+
 
   Widget _buildHeader(BuildContext context) {
     return Padding(

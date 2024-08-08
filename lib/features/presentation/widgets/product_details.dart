@@ -1,11 +1,12 @@
+import 'package:coffe_shop/features/data/models/product_model.dart';
 import 'package:coffe_shop/features/presentation/widgets/order.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({super.key});
-
+  const ProductDetails({super.key, required  this.product});
+  final ProductModel product ;
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
@@ -24,7 +25,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -55,8 +56,8 @@ class _ProductDetailsState extends State<ProductDetails> {
               margin: EdgeInsets.symmetric(vertical: 20.0.w),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                child: Image.asset(
-                  'assets/CaffeMocha.png',
+                child:Image.network(
+                  widget.product.image ?? "",
                   width: 390.w,
                   height: 202.h,
                   fit: BoxFit.fill,
@@ -64,11 +65,11 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
              Text(
-              'Caffe Mocha',
+              widget.product.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+             Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0.h),
               child: Text("Ice/Hot",style: TextStyle(color: Colors.grey),),
             ),
             Row(
@@ -78,8 +79,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                 const Text("(230)",style: TextStyle(color: Colors.grey),),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+             Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0.h),
               child: Divider(),
             ),
             const Text(
@@ -89,13 +90,13 @@ class _ProductDetailsState extends State<ProductDetails> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 20.h),
               child: RichText(
-                text: const TextSpan(
+                text:  TextSpan(
                   children: [
                     TextSpan(
-                      text: 'A cappuccino is an approximately 150 ml (5 oz) beverage, with 25 ml of espresso coffee and 85ml of fresh milk the fo.. ',
+                      text:  widget.product.description,
                       style: TextStyle(color: Colors.grey),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'Read More',
                       style: TextStyle(color: Color(0xFFC67C4E)),
                     ),
@@ -108,62 +109,57 @@ class _ProductDetailsState extends State<ProductDetails> {
               'Size',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 20.h),
-              color: Colors.transparent,
-              child: Flexible(
-                child: Center(
-                  child: Container(
-                    height: 35.h, // Set the desired height here
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: ["L", "M", "S"].map((size) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedSize = size; // Update selected size
-                            });
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10.w),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40.w, vertical: 5.h),
-                            decoration: BoxDecoration(
-                              color: selectedSize == size
-                                  ? Color(0xFFC67C4E)
-                                  : Colors.white,
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              size,
-                              style: TextStyle(
-                                color: selectedSize == size
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontSize: 16.sp,
-                              ),
-                            ),
+            Flexible(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 15.h),
+                height: 35.h, // Set the desired height here
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: ["L", "M", "S"].map((size) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedSize = size; // Update selected size
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10.w),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 40.w, vertical: 5.h),
+                        decoration: BoxDecoration(
+                          color: selectedSize == size
+                              ? Color(0xFFC67C4E)
+                              : Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          size,
+                          style: TextStyle(
+                            color: selectedSize == size
+                                ? Colors.white
+                                : Colors.black,
+                            fontSize: 16.sp,
                           ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
             Row(
               children: [
-                const Column(
+                 Column(
                   children: [
-                    Text(
+                    const Text(
                       'Price',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.grey),
                     ),
                     Text(
-                      '\$4.45',
-                      style: TextStyle(
+                      '\$${ widget.product.price}',
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xFFC67C4E)),
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DeliveryScreen extends StatefulWidget {
   @override
@@ -47,14 +48,14 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 );
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: const Row(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child:  Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Show Delivery Info',
                         style: TextStyle(color: Colors.black)),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Icon(Icons.keyboard_arrow_up,
                         size: 20.0, color: Colors.black),
                   ],
@@ -63,10 +64,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
           ),
           Positioned(
-            top: 50,
-            left: 20,
+            top: 50.h,
+            left: 20.w,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
                   color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(50)),
@@ -89,7 +90,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   Widget _buildBottomSheetContent() {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding:  EdgeInsets.all(20.0.w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,10 +100,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             decoration: BoxDecoration(
                 color: Colors.grey[400],
                 borderRadius: BorderRadius.circular(50)),
-            height: 3,
-            width: 50,
+            height: 3.h,
+            width: 50.w,
           )),
-          const SizedBox(height: 10),
+           SizedBox(height: 10.h),
           const Text(
             '10 minutes left',
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -125,7 +126,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
           ),
           ListTile(
-            leading: const CircleAvatar(
+            leading:  CircleAvatar(
               backgroundImage: NetworkImage(
                   'https://example.com/path/to/image.jpg'), // Replace with your image URL
             ),
@@ -133,7 +134,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             subtitle: Text('Personal Courier'),
             trailing: IconButton(
               icon: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10.w),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.grey.withOpacity(0.5))),
@@ -150,7 +151,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   Widget _buildStepIndicator() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+      padding:  EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -165,8 +166,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   Widget _buildStepRectangle({required bool isCompleted}) {
     return Container(
-      width: 60.0,
-      height: 3.0,
+      width: 60.0.w,
+      height: 3.0.h,
       decoration: BoxDecoration(
         color: isCompleted ? Colors.green : Colors.grey,
         borderRadius: BorderRadius.circular(5.0),

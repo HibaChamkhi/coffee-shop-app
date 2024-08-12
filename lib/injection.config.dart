@@ -60,10 +60,8 @@ extension GetItInjectableX on _i174.GetIt {
         _i291.GetCategoriesUseCase(repository: gh<_i470.ProductRepository>()));
     gh.factory<_i884.GetProductsUseCase>(() =>
         _i884.GetProductsUseCase(repository: gh<_i470.ProductRepository>()));
-    gh.factory<_i788.ProductBloc>(() => _i788.ProductBloc(
-          getCategoriesUseCase: gh<_i291.GetCategoriesUseCase>(),
-          getProductsUseCase: gh<_i884.GetProductsUseCase>(),
-        ));
+    gh.factory<_i788.ProductBloc>(
+        () => _i788.ProductBloc(repository: gh<_i470.ProductRepository>()));
     return this;
   }
 }

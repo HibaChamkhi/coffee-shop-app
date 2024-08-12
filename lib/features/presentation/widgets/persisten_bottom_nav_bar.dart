@@ -23,13 +23,14 @@ class PersistenBottomNavBar extends StatelessWidget {
             ),
           ),
           PersistentTabConfig(
-            screen:  Text(""),
+            screen: Text(""),
             item: ItemConfig(
               activeForegroundColor: Color(0xFFC67C4E),
-              icon: Icon(Icons.monitor_heart_outlined),
+              icon: Icon(Icons.favorite_border),
               title: "_",
             ),
           ),
+
           PersistentTabConfig(
             screen: Text(""),
             item: ItemConfig(

@@ -2,42 +2,35 @@ import 'package:coffe_shop/features/data/models/product_model.dart';
 import 'package:coffe_shop/features/presentation/widgets/product_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../data/models/category_model.dart';
-
-enum SelectedTab { home, favorite, add, search, person }
-
-final List<String> coffeeNames = [
-  "All Coffee",
-  "Espresso",
-  "Americano",
-  "Latte",
-  "Cappuccino",
-  "Mocha",
-  "Macchiato",
-  "Flat White",
-  "Affogato",
-  "Cortado",
-  "Irish Coffee"
-];
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key, required this.categories, required this.products}) : super(key: key);
 
-final List<CategoryModel> categories ;
-final List<ProductModel> products ;
+  final List<CategoryModel> categories;
+  final List<ProductModel> products;
 
   @override
   State<HomeWidget> createState() => _HomeWidgetState();
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  SelectedTab _selectedTab = SelectedTab.home;
   int _selectedIndex = 0;
+  bool _isLoading = true;
 
-  void _handleIndexChanged(int index) {
+  @override
+  void initState() {
+    super.initState();
+    _simulateDataProcessing();
+  }
+
+  void _simulateDataProcessing() async {
+    // Simulate a delay for data processing
+    await Future.delayed(const Duration(seconds: 2));
     setState(() {
-      _selectedTab = SelectedTab.values[index];
+      _isLoading = false; // Data processing done, show content
     });
   }
 
@@ -54,17 +47,70 @@ class _HomeWidgetState extends State<HomeWidget> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 _buildHeader(),
-                _buildCoffeeList(),
-                _buildCoffeeGrid(),
+                _isLoading ? _buildLoadingCategories() : _buildCoffeeList(),
+                _isLoading ? _buildLoadingProducts() : _buildCoffeeGrid(),
               ],
             ),
           ),
-          _buildOverlay()
+          _buildOverlay(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingCategories() {
+    return Container(
+      height: 30.h,
+      margin: EdgeInsets.only(top: 100.h, left: 20.w, bottom: 5.h),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: 80.w,
+              margin: EdgeInsets.symmetric(horizontal: 10.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildLoadingProducts() {
+    return Container(
+      height: 500.h,
+      padding: const EdgeInsets.only(left: 25, right: 25, bottom: 120),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15.w,
+          mainAxisSpacing: 15.h,
+          childAspectRatio: 0.75,
+        ),
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -72,7 +118,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget _buildHeader() {
     return Container(
       width: double.infinity,
-      height: 300.h,
+      height: 280.h,
       color: Colors.black,
       child: Padding(
         padding: EdgeInsets.only(left: 20.w, top: 60.h),
@@ -127,7 +173,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
-
   Widget _buildMenuButton() {
     return Container(
       decoration: BoxDecoration(
@@ -150,22 +195,28 @@ class _HomeWidgetState extends State<HomeWidget> {
           // Adding the "All" category at the beginning
           GestureDetector(
             onTap: () => _onItemTap(0),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              margin: EdgeInsets.symmetric(horizontal: 10.w),
-              decoration: BoxDecoration(
-                color: _selectedIndex == 0
-                    ? const Color(0xFFC67C4E)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Text(
-                  "All",
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                    color: _selectedIndex == 0 ? Colors.white : Colors.black,
+            child: AnimatedScale(
+              scale: _selectedIndex == 0 ? 1.2 : 1.0, // Zooms in when selected
+              duration: const Duration(milliseconds: 300),
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                margin: EdgeInsets.symmetric(horizontal: 10.w),
+                decoration: BoxDecoration(
+                  color: _selectedIndex == 0
+                      ? const Color(0xFFC67C4E)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: AnimatedDefaultTextStyle(
+                    duration: Duration(milliseconds: 300),
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                      color: _selectedIndex == 0 ? Colors.white : Colors.black,
+                    ),
+                    child: const Text("All"),
                   ),
                 ),
               ),
@@ -177,23 +228,29 @@ class _HomeWidgetState extends State<HomeWidget> {
             String name = entry.value.name;
             return GestureDetector(
               onTap: () => _onItemTap(index),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                margin: EdgeInsets.symmetric(horizontal: 10.w),
-                decoration: BoxDecoration(
-                  color: _selectedIndex == index
-                      ? const Color(0xFFC67C4E)
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color:
-                      _selectedIndex == index ? Colors.white : Colors.black,
+              child: AnimatedScale(
+                scale: _selectedIndex == index ? 1.2 : 1.0, // Zooms in when selected
+                duration: const Duration(milliseconds: 300),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  margin: EdgeInsets.symmetric(horizontal: 10.w),
+                  decoration: BoxDecoration(
+                    color: _selectedIndex == index
+                        ? const Color(0xFFC67C4E)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 300),
+                      style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color:
+                        _selectedIndex == index ? Colors.white : Colors.black,
+                      ),
+                      child: Text(name),
                     ),
                   ),
                 ),
@@ -203,23 +260,35 @@ class _HomeWidgetState extends State<HomeWidget> {
         ],
       ),
     );
-
   }
 
   Widget _buildCoffeeGrid() {
     return Container(
       height: 500.h,
-      padding: const EdgeInsets.only(left: 25,right: 25,bottom: 120),
+      padding: const EdgeInsets.only(left: 25, right: 25, bottom: 120),
       child: GridView.builder(
-        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 15.w,
           mainAxisSpacing: 15.h,
-          childAspectRatio: 0.75
+          childAspectRatio: 0.75,
         ),
         itemCount: widget.products.length,
         itemBuilder: (context, index) {
-          return  ProductBox(product: widget.products[index]);
+          return TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0, end: 1),
+            duration: Duration(milliseconds: 500 + index * 100),
+            builder: (context, value, child) {
+              return Opacity(
+                opacity: value,
+                child: Transform.scale(
+                  scale: value,
+                  child: child,
+                ),
+              );
+            },
+            child: ProductBox(product: widget.products[index]),
+          );
         },
       ),
     );
@@ -229,7 +298,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Stack(
       children: [
         Positioned(
-          top: 240.h,
+          top: 210.h,
           left: 25.w,
           right: 25.w,
           child: Container(
@@ -241,7 +310,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               height: 140.h),
         ),
         Positioned(
-          top: 260.h,
+          top: 220.h,
           left: 45.w,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
@@ -259,7 +328,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
         ),
         Positioned(
-          top: 235.h,
+          top: 200.h,
           left: 45.w,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -289,4 +358,3 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 }
-

@@ -5,6 +5,7 @@ import 'package:coffe_shop/features/domain/use_cases/get_categories_use_case.dar
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import '../../../core/extensions/map_failure_to_message.dart';
+import '../../domain/repositories/product_repository.dart';
 import '../../domain/use_cases/get_products_use_case.dart';
 
 part 'product_event.dart';
@@ -13,18 +14,16 @@ part 'product_state.dart';
 
 @injectable
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final GetCategoriesUseCase getCategoriesUseCase;
-  final GetProductsUseCase getProductsUseCase;
+  final ProductRepository repository;
 
   ProductBloc({
-    required this.getCategoriesUseCase,
-    required this.getProductsUseCase,
+    required this.repository,
   }) : super(const ProductState()) {
     on<ProductEvent>((event, emit) async {
       if (event is GetCategoriesEvent) {
         emit(state
             .copyWith(productStatus: ProductStatus.loading, categories: []));
-        final failureOrSuggestedProducts = await getCategoriesUseCase();
+        final failureOrSuggestedProducts = await repository.getAllCategories();
         failureOrSuggestedProducts.fold(
             (suggestedOrFailure) => emit(state.copyWith(
                   messages: mapFailureToMessage(suggestedOrFailure),
@@ -36,7 +35,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (event is GetProductsEvent) {
         emit(
             state.copyWith(productStatus: ProductStatus.loading, products: []));
-        final failureOrSuggestedProducts = await getProductsUseCase();
+        final failureOrSuggestedProducts = await repository.getAllProducts();
         failureOrSuggestedProducts.fold(
             (suggestedOrFailure) => emit(state.copyWith(
                   messages: mapFailureToMessage(suggestedOrFailure),

@@ -5,14 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({super.key, required  this.product});
-  final ProductModel product ;
+  const ProductDetails({super.key, required this.product});
+  final ProductModel product;
+
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductDetailsState extends State<ProductDetails> with TickerProviderStateMixin {
   String selectedSize = "S";
+  bool _isImageExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Delay the expansion to let the initial layout render
+    Future.delayed(Duration(milliseconds: 100), () {
+      setState(() {
+        _isImageExpanded = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +34,10 @@ class _ProductDetailsState extends State<ProductDetails> {
       body: Container(
         padding: EdgeInsets.only(left: 20.w, top: 60.h, right: 20.w),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.0.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,34 +64,53 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
             Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(vertical: 20.0.w),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                child:Image.network(
-                  widget.product.image ?? "",
-                  width: 390.w,
-                  height: 202.h,
-                  fit: BoxFit.fill,
+              padding: EdgeInsets.symmetric(vertical: 20.h),
+              child: Center(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 600),
+                  curve: Curves.easeInOut,
+                  width: _isImageExpanded ? 390.w : 50.w,
+                  height: _isImageExpanded ? 202.h : 25.h,
+                  alignment: Alignment.center,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(10.r)),
+                    child: Image.network(
+                      widget.product.image ?? "",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
             ),
-             Text(
+            Text(
               widget.product.name,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
             ),
-             Padding(
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0.h),
-              child: Text("Ice/Hot",style: TextStyle(color: Colors.grey),),
+              child: const Text(
+                "Ice/Hot",
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
             Row(
               children: [
-                Icon(Icons.star,size: 15,color: Colors.yellow[600],),
-                const Text("4.8",style: TextStyle(fontWeight: FontWeight.bold),),
-                const Text("(230)",style: TextStyle(color: Colors.grey),),
+                Icon(
+                  Icons.star,
+                  size: 15,
+                  color: Colors.yellow[600],
+                ),
+                const Text(
+                  "4.8",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const Text(
+                  "(230)",
+                  style: TextStyle(color: Colors.grey),
+                ),
               ],
             ),
-             Padding(
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0.h),
               child: Divider(),
             ),
@@ -90,10 +121,10 @@ class _ProductDetailsState extends State<ProductDetails> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 20.h),
               child: RichText(
-                text:  TextSpan(
+                text: TextSpan(
                   children: [
                     TextSpan(
-                      text:  widget.product.description,
+                      text: widget.product.description,
                       style: TextStyle(color: Colors.grey),
                     ),
                     const TextSpan(
@@ -104,7 +135,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
             ),
-
             const Text(
               'Size',
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -112,7 +142,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             Flexible(
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 15.h),
-                height: 35.h, // Set the desired height here
+                height: 35.h,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: ["L", "M", "S"].map((size) {
@@ -150,7 +180,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             Row(
               children: [
-                 Column(
+                Column(
                   children: [
                     const Text(
                       'Price',
@@ -158,7 +188,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           fontWeight: FontWeight.bold, color: Colors.grey),
                     ),
                     Text(
-                      '\$${ widget.product.price}',
+                      '\$${widget.product.price}',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Color(0xFFC67C4E)),
@@ -169,17 +199,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                   width: 60.w,
                 ),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const Order(),
                       ),
-                    );                      },
+                    );
+                  },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 15.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Color(0xFFC67C4E),
+                      color: const Color(0xFFC67C4E),
                     ),
                     child: const Text(
                       "Buy Now",
@@ -188,7 +219,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 )
               ],
-            )
+            ),
           ],
         ),
       ),
